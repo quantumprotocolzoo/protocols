@@ -1,0 +1,9 @@
+*.pyc
+.*.sw?
+*.DS_Store
+/docs/_build/*
+/build/*
+/dist/*
+/cqc.egg-info/*
+
+.idea/*
