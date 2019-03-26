@@ -291,6 +291,8 @@ class CQCConnection:
                 # This file defines the application network
         if appFile is None:
             self.appFile = CQC_CONF_APP_FILE
+        else:
+            self.appFile = appFile
 
             # Read configuration files for the application network
         if os.path.exists(self.appFile):
