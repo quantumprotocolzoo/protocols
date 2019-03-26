@@ -28,7 +28,6 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import os
-import logging
 from configparser import ConfigParser
 
 
@@ -67,18 +66,3 @@ config = get_config()
 # Otherwise, specify the path to the files in the file settings.ini
 CQC_CONF_CQC_FILE = config['FILEPATHS']['cqc_file']
 CQC_CONF_APP_FILE = config['FILEPATHS']['app_file']
-
-log_levels = {
-    "info": logging.INFO,
-    "debug": logging.DEBUG,
-    "warning": logging.WARNING,
-    "error": logging.ERROR,
-    "critical": logging.CRITICAL
-}
-CQC_CONF_LOG_LEVEL = log_levels[config['LOGGING']['level']]
-
-# Sets the time to wait between attempts to setup the connections to the cqc node
-CQC_CONF_LINK_WAIT_TIME = float(config['WAITTIMES']['link_wait_time'])
-
-# Sets the time to wait between attempts to setup the connections to other nodes for classical communication
-CQC_CONF_COM_WAIT_TIME = float(config['WAITTIMES']['com_wait_time'])

@@ -35,8 +35,7 @@ import logging
 import socket
 import warnings
 
-from cqc.settings import CQC_CONF_LINK_WAIT_TIME, CQC_CONF_COM_WAIT_TIME,\
-    CQC_CONF_LOG_LEVEL, CQC_CONF_CQC_FILE, CQC_CONF_APP_FILE
+from cqc.settings import CQC_CONF_CQC_FILE, CQC_CONF_APP_FILE
 from cqc.cqcHeader import (
     Header,
     CQCCmdHeader,
@@ -93,7 +92,6 @@ from cqc.cqcHeader import (
 from cqc.entInfoHeader import EntInfoHeader
 from cqc.hostConfig import cqc_node_id_from_addrinfo, networkConfig
 
-logging.basicConfig(format="%(asctime)s:%(levelname)s:%(message)s", level=CQC_CONF_LOG_LEVEL)
 
 
 def shouldReturn(command):
@@ -175,7 +173,7 @@ class CQCConnection:
     _appIDs = {}
 
     def __init__(self, name, socket_address=None, cqcFile=None, appFile=None, appID=None, pend_messages=False,
-                 retry_connection=True):
+                 retry_connection=True, conn_retry_time=0.1, log_level=None):
         """
         Initialize a connection to the cqc server.
 
@@ -187,7 +185,14 @@ class CQCConnection:
             :param appID:        Application ID. If set to None, defaults to a nonused ID.
             :param pend_messages: True if you want to wait with sending messages to the back end.
                     Use flush() to send all pending messages in one go as a sequence to the server
+            :param retry_connection: bool
+                Whether to retry a failed connection or not
+            :param conn_retry_time: float
+                How many seconds to wait between each connection retry
+            :param log_level: int or None
+                The log-level, for example logging.DEBUG (default: logging.WARNING)
         """
+        self._setup_logging(log_level)
 
         # This flag is used to check if CQCConnection is opened using a 'with' statement.
         # Otherwise an deprecation warning is printed when instantiating qubits.
@@ -195,6 +200,9 @@ class CQCConnection:
 
         # Host name
         self.name = name
+
+        # Connection retry time
+        self._conn_retry_time = conn_retry_time
 
         if name not in self._appIDs:
             self._appIDs[name] = []
@@ -271,7 +279,7 @@ class CQCConnection:
                 break
             except ConnectionRefusedError as err:
                 logging.debug("App {} : Could not connect to  CQC server, trying again...".format(self.name))
-                time.sleep(CQC_CONF_LINK_WAIT_TIME)
+                time.sleep(self._conn_retry_time)
                 self._s.close()
                 if not retry_connection:
                     raise err
@@ -310,6 +318,19 @@ class CQCConnection:
 
     def __str__(self):
         return "Socket to cqc server '{}'".format(self.name)
+
+    @staticmethod
+    def _setup_logging(level):
+        """
+        Sets up the logging to the specified level (default logging.WARNING)
+        :param level: int or None
+            For example logging.DEBUG
+        :return: None
+        """
+        if level is None:
+            logging.basicConfig(format="%(asctime)s:%(levelname)s:%(message)s", level=logging.WARNING)
+        else:
+            logging.basicConfig(format="%(asctime)s:%(levelname)s:%(message)s", level=level)
 
     def get_appID(self):
         """
@@ -410,7 +431,7 @@ class CQCConnection:
                     logging.debug(
                         "App {}: Could not open classical channel to {}, trying again..".format(self.name, name)
                     )
-                    time.sleep(CQC_CONF_COM_WAIT_TIME)
+                    time.sleep(self._conn_retry_time)
                 except Exception as e:
                     logging.warning(
                         "App {} : Critical error when connection to app node {}: {}".format(self.name, name, e)
