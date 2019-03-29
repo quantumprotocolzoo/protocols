@@ -35,7 +35,7 @@ import logging
 import socket
 import warnings
 
-from cqc.settings import CQC_CONF_CQC_FILE, CQC_CONF_APP_FILE
+from cqc.settings import get_cqc_file, get_app_file
 from cqc.cqcHeader import (
     Header,
     CQCCmdHeader,
@@ -237,7 +237,7 @@ class CQCConnection:
         if socket_address is None:
             # This file defines the network of CQC servers interfacing to virtual quantum nodes
             if cqcFile is None:
-                self.cqcFile = CQC_CONF_CQC_FILE
+                self.cqcFile = get_cqc_file()
             else:
                 self.cqcFile = cqcFile
 
@@ -290,7 +290,7 @@ class CQCConnection:
 
                 # This file defines the application network
         if appFile is None:
-            self.appFile = CQC_CONF_APP_FILE
+            self.appFile = get_app_file()
         else:
             self.appFile = appFile
 
