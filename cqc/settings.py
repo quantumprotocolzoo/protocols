@@ -54,15 +54,29 @@ def set_config(config):
     with open(settings_file, 'w') as f:
         config.write(f)
 
+def get_cqc_file():
+    """
+    Gets the path to the CQC file used
+    :return: str
+    """
+    config = get_config()
+    try:
+        file_path = config['FILEPATHS']['cqc_file']
+    except KeyError:
+        return None
 
-############################
-# CONFIGURATION FILE FOR CQC
-############################
-config = get_config()
+    return file_path
 
-# The path to the file specifying the addresses and ports of the CQC nodes
-# and the APP nodes.
-# If using SimulaQron, this will be set by SimulaQron.
-# Otherwise, specify the path to the files in the file settings.ini
-CQC_CONF_CQC_FILE = config['FILEPATHS']['cqc_file']
-CQC_CONF_APP_FILE = config['FILEPATHS']['app_file']
+
+def get_app_file():
+    """
+    Gets the path to the APP file used
+    :return: str
+    """
+    config = get_config()
+    try:
+        file_path = config['FILEPATHS']['app_file']
+    except KeyError:
+        return None
+
+    return file_path
