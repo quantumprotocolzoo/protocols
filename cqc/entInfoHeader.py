@@ -51,6 +51,32 @@ class EntInfoHeader(Header):
     HDR_LENGTH = ENT_INFO_LENGTH
     packaging_format = "!LHHLHHLQQHBB"
 
+    def __init__(self, headerBytes=None):
+        """
+        Initialize using values received from a packet, if available.
+        """
+        super().__init__(headerBytes)
+        if headerBytes is None:
+            self.node_A = 0
+            self.port_A = 0
+            self.app_id_A = 0
+
+            self.node_B = 0
+            self.port_B = 0
+            self.app_id_B = 0
+
+            self.id_AB = 0
+
+            self.timestamp = 0
+            self.ToG = 0
+            self.goodness = 0
+            self.DF = 0
+            self.is_set = False
+        else:
+            self.unpack(headerBytes)
+            self.is_set = True
+
+
     def _setVals(self, node_A=0, port_A=0, app_id_A=0, node_B=0, port_B=0, app_id_B=0, id_AB=0, timestamp=0, ToG=0,
                  goodness=0, DF=0):
         """
