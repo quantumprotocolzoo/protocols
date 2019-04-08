@@ -93,7 +93,6 @@ from cqc.entInfoHeader import EntInfoHeader
 from cqc.hostConfig import cqc_node_id_from_addrinfo, networkConfig
 
 
-
 def shouldReturn(command):
     return command in {
         CQC_CMD_NEW,
