@@ -1,3 +1,4 @@
 numpy>=1.14.0
 bitstring>=3.1.5
-flake>=3.6.0
+flake8>=3.6.0
+twisted>=18.7.0

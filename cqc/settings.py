@@ -54,6 +54,7 @@ def set_config(config):
     with open(settings_file, 'w') as f:
         config.write(f)
 
+
 def get_cqc_file():
     """
     Gets the path to the CQC file used

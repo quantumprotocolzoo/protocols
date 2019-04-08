@@ -6,13 +6,13 @@ with open("README.md", 'r') as f:
 
 setuptools.setup(
     name="cqc",
-    version="2.0.1",
+    version="2.1.0",
     author="Axel Dahlberg",
     author_email="e.a.dahlberg@tudelft.nl",
     description="The CQC interface",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/SoftwareQuTech/CQC",
+    url="https://github.com/SoftwareQuTech/CQC-Python",
     include_package_data=True,
     package_data={
         'cqc': ['settings.ini']
