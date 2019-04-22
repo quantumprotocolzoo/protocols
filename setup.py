@@ -1,12 +1,25 @@
 import setuptools
+import os
 
+path_to_here = os.path.dirname(os.path.abspath(__file__))
+cqc_init = os.path.join(path_to_here, "cqc", "__init__.py")
+
+with open(cqc_init, 'r') as f:
+    for line in f:
+        line = line.strip()
+        if line.startswith("__version__"):
+            version = line.split("__version__ = ")[1]
+            version = version.split(' ')[0]
+            break
+    else:
+        raise RuntimeError("Could not find the version!")
 
 with open("README.md", 'r') as f:
     long_description = f.read()
 
 setuptools.setup(
     name="cqc",
-    version="2.2.0",
+    version=version,
     author="Axel Dahlberg",
     author_email="e.a.dahlberg@tudelft.nl",
     description="The CQC interface",
@@ -14,9 +27,6 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/SoftwareQuTech/CQC-Python",
     include_package_data=True,
-    package_data={
-        'cqc': ['settings.ini']
-    },
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
