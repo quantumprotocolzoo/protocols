@@ -35,7 +35,6 @@ import logging
 import socket
 import warnings
 
-from cqc.settings import get_cqc_file, get_app_file
 from cqc.cqcHeader import (
     Header,
     CQCCmdHeader,
@@ -90,7 +89,16 @@ from cqc.cqcHeader import (
     CQC_TP_EXPIRE,
 )
 from cqc.entInfoHeader import EntInfoHeader
-from cqc.hostConfig import cqc_node_id_from_addrinfo, networkConfig
+from cqc.hostConfig import cqc_node_id_from_addrinfo
+
+try:
+    import simulaqron
+    from simulaqron.general.hostConfig import socketsConfig
+    from simulaqron.settings import simulaqron_settings
+    _simulaqron_version = simulaqron.__version__
+    _simulaqron_major = int(_simulaqron_version.split('.')[0])
+except ModuleNotFoundError:
+    _simulaqron_major = -1
 
 
 def shouldReturn(command):
@@ -171,16 +179,19 @@ def createXtraHeader(command, values):
 class CQCConnection:
     _appIDs = {}
 
-    def __init__(self, name, socket_address=None, cqcFile=None, appFile=None, appID=None, pend_messages=False,
-                 retry_connection=True, conn_retry_time=0.1, log_level=None):
+    def __init__(self, name, socket_address=None, appID=None, pend_messages=False,
+                 retry_connection=True, conn_retry_time=0.1, log_level=None, backend=None,
+                 use_classical_communication=True, network_name=None):
         """
         Initialize a connection to the cqc server.
+
+        Since version 3.0.0: If socket_address is None or use_classical_communication is True, the CQC connection
+        needs some way of finding the correct socket addresses. If backend is None or "simulaqron" the connection
+        will try to make use of the network config file setup in simulaqron. If simulaqron is not installed
 
         - **Arguments**
             :param name:        Name of the host.
             :param socket_address: tuple (str, int) of ip and port number.
-            :param cqcFile:    Path to cqcFile. If None, 'Setting.CONF_CQC_FILE' is used, unless socket_address
-            :param appFile:    Path to appFile. If None, 'Setting.CONF_APP_FILE' is used.
             :param appID:        Application ID. If set to None, defaults to a nonused ID.
             :param pend_messages: True if you want to wait with sending messages to the back end.
                     Use flush() to send all pending messages in one go as a sequence to the server
@@ -190,6 +201,14 @@ class CQCConnection:
                 How many seconds to wait between each connection retry
             :param log_level: int or None
                 The log-level, for example logging.DEBUG (default: logging.WARNING)
+            :param backend: None or str
+                If socket_address is None or use_classical_communication is True, If None or "simulaqron" is used
+                the cqc library tries to use the network config file setup in simulaqron if network_config_file is None.
+                If network_config_file is None and simulaqron is not installed a ValueError is raised.
+            :param use_classical_communication: bool
+                Whether to use the built-in classical communication or not.
+            :param network_name: None or str
+                Used if simulaqron is used to load socket addresses for the backend
         """
         self._setup_logging(log_level)
 
@@ -233,19 +252,21 @@ class CQCConnection:
         # Classical connections in the application network
         self._classicalConn = {}
 
-        if socket_address is None:
-            # This file defines the network of CQC servers interfacing to virtual quantum nodes
-            if cqcFile is None:
-                self.cqcFile = get_cqc_file()
+        if socket_address is None or use_classical_communication:
+            if backend is None or backend == "simulaqron":
+                if _simulaqron_major < 3:
+                    raise ValueError("If (socket_address is None or use_classical_communication is True)"
+                                     "and (backend is None or 'simulaqron'\n"
+                                     "you need simulaqron>=3.0.0 installed.")
+                else:
+                    network_config_file = simulaqron_settings.network_config_file
+                    self._cqcNet = socketsConfig(network_config_file, network_name=network_name, config_type="cqc")
+                    if use_classical_communication:
+                        self._appNet = socketsConfig(network_config_file, network_name=network_name, config_type="app")
+                    else:
+                        self._appNet = None
             else:
-                self.cqcFile = cqcFile
-
-            # Read configuration files for the cqc network
-            if os.path.exists(self.cqcFile):
-                self._cqcNet = networkConfig(self.cqcFile)
-            else:
-                raise ValueError("There was no path specified for the cqc file containing addresses"
-                                 "and port numbers to the cqc nodes in the backend.")
+                raise ValueError("Unknown backend")
 
             # Host data
             if self.name in self._cqcNet.hostDict:
@@ -255,7 +276,7 @@ class CQCConnection:
 
                 # Get IP and port number
             addr = myHost.addr
-        else:
+        if socket_address is not None:
             try:
                 hostname, port = socket_address
                 if not isinstance(hostname, str):
@@ -287,20 +308,7 @@ class CQCConnection:
                 self._s.close()
                 raise err
 
-                # This file defines the application network
-        if appFile is None:
-            self.appFile = get_app_file()
-        else:
-            self.appFile = appFile
-
-            # Read configuration files for the application network
-        if os.path.exists(self.appFile):
-            self._appNet = networkConfig(self.appFile)
-        else:
-            logging.warning("Since there is no appFile was found the built-in classical commmunication cannot be used.")
-            self._appNet = None
-
-            # List of pending messages waiting to be send to the back-end
+        # List of pending messages waiting to be send to the back-end
         self.pend_messages = pend_messages
         self.pending_messages = []
 
@@ -362,7 +370,8 @@ class CQCConnection:
         """
         if self._appNet is None:
             raise ValueError(
-                "Since there is no appFile was found the built-in classical commmunication cannot be used."
+                "Since use_classical_communication was set to False upon init, the built-in classical communication"
+                "cannot be used."
             )
 
         if not self._classicalServer:
@@ -412,7 +421,8 @@ class CQCConnection:
         """
         if self._appNet is None:
             raise ValueError(
-                "Since there is no appFile was found the built-in classical commmunication cannot be used."
+                "Since use_classical_communication was set to False upon init, the built-in classical communication"
+                "cannot be used."
             )
         if name not in self._classicalConn:
             logging.debug("App {}: Opening classical channel to {}".format(self.name, name))
