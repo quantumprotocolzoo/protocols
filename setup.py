@@ -10,6 +10,7 @@ with open(cqc_init, 'r') as f:
         if line.startswith("__version__"):
             version = line.split("__version__ = ")[1]
             version = version.split(' ')[0]
+            version = eval(version)
             break
     else:
         raise RuntimeError("Could not find the version!")
