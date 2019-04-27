@@ -76,7 +76,6 @@ class EntInfoHeader(Header):
             self.unpack(headerBytes)
             self.is_set = True
 
-
     def _setVals(self, node_A=0, port_A=0, app_id_A=0, node_B=0, port_B=0, app_id_B=0, id_AB=0, timestamp=0, ToG=0,
                  goodness=0, DF=0):
         """

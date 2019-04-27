@@ -60,7 +60,7 @@ class CQCProtocol(Protocol):
         # higher layers or an OS
         self.app_id = 0
 
-        # Define the backend to use. Is a setting in settings.ini
+        # Define the backend to use.
         self.messageHandler = factory.backend
 
         # Flag to determine whether we already received _all_ of the CQC header

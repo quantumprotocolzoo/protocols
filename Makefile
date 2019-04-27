@@ -2,6 +2,8 @@ PYTHON        = python3
 PIP           = pip3
 CQC_DIR		  = cqc
 
+clean: _clear_pyc _clear_build
+
 _clear_pyc:
 	@find . -name '*.pyc' -delete
 
@@ -10,6 +12,9 @@ lint:
 
 python-deps:
 	@cat requirements.txt | xargs -n 1 -L 1 $(PIP) install
+
+_verified:
+	@echo "CQC-Python is verified!"
 
 verify: clean python-deps lint _verified
 
@@ -26,8 +31,6 @@ _clear_build: _remove_build _remove_dist _remove_egg_info
 
 _build:
 	@${PYTHON} setup.py sdist bdist_wheel
-
-clean: _clear_pyc _clear_build
 
 build: _clear_build _build
 

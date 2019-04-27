@@ -47,41 +47,6 @@ def cqc_node_id_from_addrinfo(addr):
     return cqc_node_id(fam, ip)
 
 
-class networkConfig(pb.Referenceable):
-    def __init__(self, filename):
-        """
-        Initialize by reading in the configuration file.
-        """
-        # Dictionary where we will keep host details, indexed by node name (e.g. Alice)
-        self.hostDict = {}
-
-        # Read config file
-        self.read_config(filename)
-
-    def read_config(self, filename):
-        """
-        Reads the configuration file in which each line has the form: node name, hostname, port number.
-        For example:
-        Alice, localhost, 8888
-        """
-        with open(filename) as confFile:
-            for line in confFile:
-                if not line.startswith("#"):
-                    words = line.split(",")
-
-                    # We will simply ignore lines which are not of the right form
-                    if len(words) == 3:
-                        newHost = host(words[0].strip(), words[1].strip(), words[2].strip())
-                        self.hostDict[words[0]] = newHost
-
-    def print_details(self, name):
-        """
-        Prints the details of the specified node with name.
-        """
-        host = self.hostDict[name]
-        print("Host details of ", name, ": ", host.hostname, ":", host.port)
-
-
 class host(pb.Referenceable):
     def __init__(self, name, hostname, port):
         """

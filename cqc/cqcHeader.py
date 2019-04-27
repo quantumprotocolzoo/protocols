@@ -135,7 +135,7 @@ class Header(metaclass=abc.ABCMeta):
 
     def _check_vals(self):
         """
-            Method to be called after settings values, checks if values can be packed and sets is_set to True.
+            Method to be called after setting values, checks if values can be packed and sets is_set to True.
 
         :return: None
         """
