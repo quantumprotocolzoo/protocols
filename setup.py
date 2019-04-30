@@ -18,6 +18,9 @@ with open(cqc_init, 'r') as f:
 with open("README.md", 'r') as f:
     long_description = f.read()
 
+with open("requirements.txt", 'r') as f:
+    install_requires = [line.strip() for line in f.readlines()]
+
 setuptools.setup(
     name="cqc",
     version=version,
@@ -29,6 +32,7 @@ setuptools.setup(
     url="https://github.com/SoftwareQuTech/CQC-Python",
     include_package_data=True,
     packages=setuptools.find_packages(),
+    install_requires=install_requires,
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
