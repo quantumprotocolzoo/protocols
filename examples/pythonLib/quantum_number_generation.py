@@ -2,6 +2,7 @@ from cqc.pythonLib import CQCConnection, qubit
 
 #####################################################################################################
 
+
 def quantum_coin_generation(coin):
 
     # Initialize the connection
