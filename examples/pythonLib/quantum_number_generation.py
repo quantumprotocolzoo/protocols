@@ -1,15 +1,14 @@
 from cqc.pythonLib import CQCConnection, qubit
-from random import randint
+
 #####################################################################################################
 
 def quantum_coin_generation(coin):
 
     # Initialize the connection
-    with CQCConnection("Alice") as Alice: #Here 1)we connect a node (ALice)
-     q=qubit(Alice)                       #2)produced a fresh qubit
-     q.H()                                #3)applied Hadamard gate
-     coin=q.measure()                     #4)mesaured the qubit and the result printed
-     #fresh_coin=int(coin) 
+    with CQCConnection("Alice") as Alice:    #Here 1)we connect a node (ALice)
+     q=qubit(Alice)                          #2)produced a fresh qubit
+     q.H()                                   #3)applied Hadamard gate
+     coin=q.measure()                        #4)mesaured the qubit and the result printed
      to_print = "{}".format(coin)         
      print("| " + to_print + " |")
      return coin
