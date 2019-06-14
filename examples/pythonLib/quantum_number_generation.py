@@ -18,11 +18,12 @@ def main():
         to_print = "{}".format(coin)         
         print("| " + to_print + " |")
         return coin
-     
 
-coin_list = []          # here we defined an empty list for saving our generated numbers/coins
-for i in range(10):   # for producing 10random numbers/coin  used for loop
-    coin_list.append(main())     # generated coins/number added in the list
-print('Quantum Coin', coin_list)                     # printed on the secreen
+
+if __name__ == '__main__':
+    coin_list = []          # here we defined an empty list for saving our generated numbers/coins
+    for i in range(10):   # for producing 10random numbers/coin  used for loop
+        coin_list.append(main())     # generated coins/number added in the list
+    print('Quantum Coin', coin_list)                     # printed on the secreen
 
 ##################################################################################################
