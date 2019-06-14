@@ -3,7 +3,7 @@ from cqc.pythonLib import CQCConnection, qubit
 #####################################################################################################
 
 
-def quantum_coin_generation(coin):
+def main():
 
     # Initialize the connection
     with CQCConnection("Alice") as Alice:    # Here 1)we connect a node (ALice)
@@ -16,9 +16,8 @@ def quantum_coin_generation(coin):
      
 
 coin_list = []          # here we defined an empty list for saving our generated numbers/coins
-coin = 0
 for i in range(10):   # for producing 10random numbers/coin  used for loop
-    coin_list.append(quantum_coin_generation(coin))     # generated coins/number added in the list
+    coin_list.append(main())     # generated coins/number added in the list
 print('Quantum Coin', coin_list)                     # printed on the secreen
 
 ##################################################################################################
