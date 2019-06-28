@@ -8,9 +8,9 @@ def generate_bell_pair():
         qubit2 = qubit(Alice)
         qubit1.H()
         qubit1.cnot(qubit2)
-        l = qubit1.measure()
-        Alice.sendQubit(qubit2,"Bob")
-        to_print = "App {}:Part 1: Measurement outcome is: {}".format(Alice.name, l)
+        n = qubit1.measure()
+        Alice.sendQubit(qubit2, "Bob")
+        to_print = "App {}:Part 1: Measurement outcome is: {}".format(Alice.name, n)
         print("| " + to_print + " |")
   
     with CQCConnection("Bob") as Bob:
