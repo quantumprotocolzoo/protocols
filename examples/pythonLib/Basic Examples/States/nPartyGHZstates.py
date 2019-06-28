@@ -23,69 +23,69 @@ if len(arr) == 2:
    
 
 def main():
- with CQCConnection("Alice") as Alice:
-  for i in range (len(arr)):
-   if 'Alice' != arr[i]:
-    qEPR = Alice.createEPR(arr[i])
-    m = qEPR.measure()
-    to_print = "App {}:Part 1: Measurement outcome is: {}".format(arr[0], m)
-    print("| " + to_print + " |")
+    with CQCConnection("Alice") as Alice:
+        for i in range (len(arr)):
+            if 'Alice' != arr[i]:
+                qEPR = Alice.createEPR(arr[i])
+                m = qEPR.measure()
+                to_print = "App {}:Part 1: Measurement outcome is: {}".format(arr[0], m)
+                print("| " + to_print + " |")
 
- with CQCConnection("Bob") as Bob:
-  qBEPR = Bob.recvEPR()
-  print("OK 1")
-  qnew = qubit(Bob)
-  qBEPR.cnot(qnew)
-  m = qBEPR.measure()
-  to_print2 = "App {}: Part 2: Measurement outcome is: {}".format(arr[1], m)
-  print("| " + to_print2 + " |")
-  for i in range (len(arr)):
-   if 'Alice' != arr[i] and 'Bob' != arr[i]:
-    qnew = qubit(Bob)
-    Bob.sendQubit(qnew,arr[i])
+    with CQCConnection("Bob") as Bob:
+        qBEPR = Bob.recvEPR()
+        print("OK 1")
+        qnew = qubit(Bob)
+        qBEPR.cnot(qnew)
+        m = qBEPR.measure()
+        to_print2 = "App {}: Part 2: Measurement outcome is: {}".format(arr[1], m)
+        print("| " + to_print2 + " |")
+            for i in range (len(arr)):
+                if 'Alice' != arr[i] and 'Bob' != arr[i]:
+                    qnew = qubit(Bob)
+                    Bob.sendQubit(qnew,arr[i])
        
         
        
    
- with CQCConnection("Eve") as Eve: 
-  if len(arr) >= 3:
-   qEEPR = Eve.recvEPR()
-   print("OK 2")
-   qnew = Eve.recvQubit()
-   qEEPR.cnot(qnew)
-   m = qEEPR.measure()
-   to_print3 = "App {}: Part 3: Measurement outcome is: {}".format(arr[2], m)
-   print("| " + to_print3 + " |")
-   for i in range (len(arr)):
-    if 'Alice' != arr[i] and 'Bob' != arr[i] and 'Eve' != arr[i]:
-     qnew = qubit(Eve)
-     Eve.sendQubit(qnew,arr[i])
+    with CQCConnection("Eve") as Eve: 
+        if len(arr) >= 3:
+            qEEPR = Eve.recvEPR()
+            print("OK 2")
+            qnew = Eve.recvQubit()
+            qEEPR.cnot(qnew)
+            m = qEEPR.measure()
+            to_print3 = "App {}: Part 3: Measurement outcome is: {}".format(arr[2], m)
+            print("| " + to_print3 + " |")
+            for i in range (len(arr)):
+                if 'Alice' != arr[i] and 'Bob' != arr[i] and 'Eve' != arr[i]:
+                    qnew = qubit(Eve)
+                    Eve.sendQubit(qnew,arr[i])
          
       
          
- with CQCConnection("David") as David:
-  if len(arr) >= 4:
-   qDEPR = David.recvEPR()
-   print("OK 3")
-   qnew = David.recvQubit()
-   qDEPR.cnot(qnew)
-   m = qDEPR.measure()
-   to_print4 = "App {}: Part 4: Measurement outcome is: {}".format(arr[3], m)
-   print("| " + to_print4 + " |")
-   for i in range (len(arr)):
-    if 'Alice' != arr[i] and 'Bob' != arr[i] and 'Eve' != arr[i] and 'David' != arr[i]: 
-     qnew = qubit(David)
-     David.sendQubit(qnew,arr[i])
+    with CQCConnection("David") as David:
+        if len(arr) >= 4:
+            qDEPR = David.recvEPR()
+            print("OK 3")
+            qnew = David.recvQubit()
+            qDEPR.cnot(qnew)
+            m = qDEPR.measure()
+            to_print4 = "App {}: Part 4: Measurement outcome is: {}".format(arr[3], m)
+            print("| " + to_print4 + " |")
+            for i in range (len(arr)):
+                if 'Alice' != arr[i] and 'Bob' != arr[i] and 'Eve' != arr[i] and 'David' != arr[i]: 
+                    qnew = qubit(David)
+                    David.sendQubit(qnew,arr[i])
 
- with CQCConnection("Charlie") as Charlie:
-  if len(arr) >= 5:
-   qCEPR = Charlie.recvEPR()
-   print("OK 4")
-   qnew = Charlie.recvQubit()
-   qCEPR.cnot(qnew) 
-   m = qCEPR.measure()
-   to_print5 = "App {}: Part 5: Measurement outcome is: {}".format(arr[4], m)
-   print("| " + to_print5 + " |")
+    with CQCConnection("Charlie") as Charlie:
+        if len(arr) >= 5:
+            qCEPR = Charlie.recvEPR()
+            print("OK 4")
+            qnew = Charlie.recvQubit()
+            qCEPR.cnot(qnew) 
+            m = qCEPR.measure()
+            to_print5 = "App {}: Part 5: Measurement outcome is: {}".format(arr[4], m)
+            print("| " + to_print5 + " |")
            
          
 
