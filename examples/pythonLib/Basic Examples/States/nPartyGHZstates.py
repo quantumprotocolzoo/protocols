@@ -1,5 +1,5 @@
 from cqc.pythonLib import CQCConnection, qubit
-import sys, argparse
+
 
 '''
 This code provide generating GHZ states according to number of inputs from users
@@ -14,16 +14,15 @@ finally they measure their qubits
 arr = []  # Here an empty array was defined and users can give name. After finishing names, users should press enter
 veri = input("Add person")   
 while veri:                     
- arr.append(veri)
- veri = input("Add person")
+    arr.append(veri)
+    veri = input("Add person")
 
 if len(arr) == 2: 
-  print("For Generating GHZ state party number should be 3 at least!!! Please try again") 
-  raise SystemExit
+    print("For Generating GHZ state party number should be 3 at least!!! Please try again") 
+    raise SystemExit
+   
 
 def main():
-
-
  with CQCConnection("Alice") as Alice:
   for i in range (len(arr)):
    if 'Alice' != arr[i]:
