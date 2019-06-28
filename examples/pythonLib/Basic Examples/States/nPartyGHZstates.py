@@ -24,7 +24,7 @@ if len(arr) == 2:
 
 def main():
     with CQCConnection("Alice") as Alice:
-        for i in range (len(arr)):
+        for i in range (len (arr)):
             if 'Alice' != arr[i]:
                 qEPR = Alice.createEPR(arr[i])
                 m = qEPR.measure()
@@ -39,10 +39,10 @@ def main():
         m = qBEPR.measure()
         to_print2 = "App {}: Part 2: Measurement outcome is: {}".format(arr[1], m)
         print("| " + to_print2 + " |")
-            for i in range (len(arr)):
-                if 'Alice' != arr[i] and 'Bob' != arr[i]:
-                    qnew = qubit(Bob)
-                    Bob.sendQubit(qnew,arr[i])
+        for i in range (len (arr)):
+            if 'Alice' != arr[i] and 'Bob' != arr[i]:
+                qnew = qubit(Bob)
+                Bob.sendQubit(qnew, arr[i])
        
         
        
@@ -56,10 +56,10 @@ def main():
             m = qEEPR.measure()
             to_print3 = "App {}: Part 3: Measurement outcome is: {}".format(arr[2], m)
             print("| " + to_print3 + " |")
-            for i in range (len(arr)):
+            for i in range (len (arr)):
                 if 'Alice' != arr[i] and 'Bob' != arr[i] and 'Eve' != arr[i]:
                     qnew = qubit(Eve)
-                    Eve.sendQubit(qnew,arr[i])
+                    Eve.sendQubit(qnew, arr[i])
          
       
          
@@ -72,10 +72,10 @@ def main():
             m = qDEPR.measure()
             to_print4 = "App {}: Part 4: Measurement outcome is: {}".format(arr[3], m)
             print("| " + to_print4 + " |")
-            for i in range (len(arr)):
+            for i in range (len (arr)):
                 if 'Alice' != arr[i] and 'Bob' != arr[i] and 'Eve' != arr[i] and 'David' != arr[i]: 
                     qnew = qubit(David)
-                    David.sendQubit(qnew,arr[i])
+                    David.sendQubit(qnew, arr[i])
 
     with CQCConnection("Charlie") as Charlie:
         if len(arr) >= 5:
@@ -87,9 +87,6 @@ def main():
             to_print5 = "App {}: Part 5: Measurement outcome is: {}".format(arr[4], m)
             print("| " + to_print5 + " |")
            
-         
-
-
 if __name__ == "__main__":
  
- main()
+    main()
