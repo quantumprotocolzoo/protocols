@@ -1,5 +1,5 @@
 from cqc.pythonLib import CQCConnection, qubit
-import sys, argparse
+import argparse
 
 '''
   This function(generate_bell_pair) for creating a bell pair from two qubit. 
@@ -9,6 +9,7 @@ import sys, argparse
   4)appled cnot gate
 '''
 
+
 def generate_bell_pair():
     with CQCConnection("Alice") as Alice:
         qubit1 = qubit(Alice)
@@ -16,7 +17,7 @@ def generate_bell_pair():
             qubit2 = qubit(Alice)
             qubit1.H()
             qubit1.cnot(qubit2)
-    return qubit1,qubit2
+    return qubit1, qubit2
   
 
 '''
@@ -30,6 +31,7 @@ by flipping the base state with X gate
 5)they were measured
 6)Finally the qubits turn into normal bits
 '''
+
 
 def create_message(qubit1, message = 0):
     with CQCConnection("Alice") as Alice:
@@ -78,6 +80,7 @@ In this function
 3)After sending message reciever, results are returned
 '''
 
+
 def send_recieve(bit = 0):
     with CQCConnection("Alice") as Alice:
         with CQCConnection("Bob") as Bob:
@@ -88,6 +91,7 @@ def send_recieve(bit = 0):
    # print ('classical_encoded_message',classical_encoded_message )
     return message_reciever(classical_encoded_message, qubit2)
 
+  
 '''
 This is the last function of sending  message with 
 using Quantum State Teleportation in CQC
@@ -97,6 +101,7 @@ transformed binary encoded message
 3)iterated through each word and each bit
 4)And thanks to send_recieve funtionbacking tho original letter
 '''
+
 
 def send_all_message(message = 'hello'):
     binary_encoded_message = [bin(ord(x))[2:].zfill(8) for x in message]
@@ -113,6 +118,7 @@ def send_all_message(message = 'hello'):
     print('Received Binary message: ', received_bytes_list)
     print('Received message: ', binary_to_string)
 
+    
 '''
 Now user can run the code with like this sentence 
 python3 quantum_state_teleportation.py -m deneme
@@ -120,6 +126,8 @@ NOte that I prefered the one words a message
 I have not tried the code more than one words.
 Bests!!
 '''
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Send a message using Quantum State Teleportation with CQC')
     requiredNamed = parser.add_argument_group('Required arguments')
