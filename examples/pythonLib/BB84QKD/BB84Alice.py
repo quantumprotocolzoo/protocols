@@ -15,6 +15,8 @@ received = []
 test = []
 mesaj = []
 
+
+
 def preperation_Alice():
     with CQCConnection("Alice") as Alice:
         for i in range(100):
