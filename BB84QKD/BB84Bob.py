@@ -62,7 +62,7 @@ def calculate():
     print ("error:", error)
     error_percentage = error/len(received) # maximum value is 1
     print("error_percentage", error_percentage)
-    size = ceil(sqrt(len(correct_basis))) # maximum valu of size can be 4
+    size = ceil(sqrt(len(correct_basis)))
     print ("size: ", size) 
     global qber
     global qber2
