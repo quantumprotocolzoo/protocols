@@ -5,13 +5,8 @@ from multiprocessing import pool
 from cqc.pythonLib import CQCConnection, qubit
 
 
-correct_basis = []
 bits_alice = []
-
 basis_alice = []
-bits_bob = []
-basis_bob = [] 
-received = []
 test = []
 mesaj = []
 

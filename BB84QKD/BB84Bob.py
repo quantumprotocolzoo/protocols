@@ -11,11 +11,7 @@ basis_alice = []
 bits_bob = []
 basis_bob = [] 
 received = []
-new_alice_bit = []
-new_alice_basis = []
-new_bob_bits = []
-new_bob_basis = []
-deneme = []
+# deneme = []
 def preparation_Bob():
     with CQCConnection("Bob") as Bob:
         for i in range(100):
