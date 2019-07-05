@@ -20,7 +20,9 @@ def preperation_Alice():
             random_basis_alice = randint(0,1)
             bits_alice.append(random_bits_alice)
             basis_alice.append(random_basis_alice)
-           # random_basis_alice = randint(0,1)
+
+
+            # random_basis_alice = randint(0,1)
             q = qubit(Alice)
            
             if random_bits_alice == 1:
