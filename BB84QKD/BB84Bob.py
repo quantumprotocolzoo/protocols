@@ -27,12 +27,6 @@ def preparation_Bob():
            # Bob.flush()
            # a = (r + m) % 2
            # deneme.append(a)
-            '''
-            if(r == 0):
-               r = 'X'
-            if(r == 1):
-               r = 'Z'
-                '''
            # received.append(r)
             
            # random_bits_bob = randint(0,1)

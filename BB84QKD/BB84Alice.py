@@ -5,10 +5,13 @@ from multiprocessing import pool
 from cqc.pythonLib import CQCConnection, qubit
 
 
+
 bits_alice = []
 basis_alice = []
 test = []
 mesaj = []
+
+
 
 def preperation_Alice():
     with CQCConnection("Alice") as Alice:
