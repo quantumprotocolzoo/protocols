@@ -46,4 +46,7 @@ In the A2.py code:
    
 In this protocol cheating was not used. Because of this reason, if you want to be sure that the code is correct, then you should'nt see that: "Bob is cheating"
 Note that: This readme file for just an outline. For detailed knowledges were added in the code.
+And for running the code, you should use this line:
+
+simulaqron reset && simulaqron set max-qubits 200 && simulaqron start --nodes A0,A1,A2,B0,B1,B2
         
