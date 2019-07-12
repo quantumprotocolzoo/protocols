@@ -1,6 +1,5 @@
 from cqc.pythonLib import CQCConnection, qubit
 
-
 def generate_bell_pair():
 
     with CQCConnection("Alice") as Alice:
