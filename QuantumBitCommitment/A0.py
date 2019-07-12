@@ -22,32 +22,32 @@ def prep_Alice():
 
     with CQCConnection("A0") as A0:
         
-         for i in range(10):
-             random_bits_alice = randint(0,1)
-             random_basis_alice = randint(0,1)
-             aclassic.append(random_bits_alice)
-             aclassbasis.append(random_basis_alice)
-             q = qubit(A0)
+        for i in range(10):
+            random_bits_alice = randint(0,1)
+            random_basis_alice = randint(0,1)
+            aclassic.append(random_bits_alice)
+            aclassbasis.append(random_basis_alice)
+            q = qubit(A0)
            
-             if random_bits_alice == 1:
-                 q.X()
-             if random_basis_alice == 1:    
-                 q.H()
-             A0.sendQubit(q, "B0")
-         # , close_after=False
-         A0.flush()
-         sleep(wait)
-         A0.sendClassical("A1",aclassic)
-         print ("Aclassic was sent to A1")
-         sleep(wait)
-         A0.sendClassical("A1",aclassbasis)
-         print ("AclassicBASIS was sent to A1")
-         sleep(wait)
-         A0.sendClassical("A2",aclassic)
-         print ("Aclassic was sent to A2")
-         sleep(wait)
-         A0.sendClassical("A2",aclassbasis)
-         print ("AclassicBASIS was sent to A2")
+            if random_bits_alice == 1:
+                q.X()
+            if random_basis_alice == 1:    
+                q.H()
+            A0.sendQubit(q, "B0")
+        # , close_after=False
+        A0.flush()
+        sleep(wait)
+        A0.sendClassical("A1",aclassic)
+        print ("Aclassic was sent to A1")
+        sleep(wait)
+        A0.sendClassical("A1",aclassbasis)
+        print ("AclassicBASIS was sent to A1")
+        sleep(wait)
+        A0.sendClassical("A2",aclassic)
+        print ("Aclassic was sent to A2")
+        sleep(wait)
+        A0.sendClassical("A2",aclassbasis)
+        print ("AclassicBASIS was sent to A2")
         # print ("HELLO")
          
          
