@@ -11,44 +11,26 @@ basis_alice = []
 bits_bob = []
 basis_bob = [] 
 received = []
-# deneme = []
+
 def preparation_Bob():
     with CQCConnection("Bob") as Bob:
         for i in range(100):
             
             q = Bob.recvQubit()
-            #print("Bob receive the message  from Alice", r)
             random_basis_bob = randint(0,1)
             basis_bob.append(random_basis_bob)
             if random_basis_bob == 1:
                q.H()
             m = q.measure()
             received.append(m)
-           # Bob.flush()
-           # a = (r + m) % 2
-           # deneme.append(a)
-           # received.append(r)
             
-           # random_bits_bob = randint(0,1)
-        #for i in range(1):
-         #   r = Bob.recvClassical()
         r = Bob.recvClassical()
         basis_alice[:] = list(r)
-           # basis_alice.append(r)    
-           # bits_bob.append(random_bits_bob)
-          #  if (random_basis_bob == 0):
-          #      basis_bob.append('X')
-         #   elif (random_basis_bob == 1):
-          #      basis_bob.append('Z')           
         
     print ("basis of bob ", basis_bob)
     print ("measurement results of bob: ",received)
     print ("received basis by bob ",basis_alice)
     
-   # print ("received qubits by bob", m)
-  #  print ("deneme", deneme)
-
-
 def calculate(): 
     error = 0
     for i in range(len(received)):
@@ -67,9 +49,7 @@ def calculate():
     global qber
     global qber2
     qber = error_percentage/size # lies btween 0 and 1
-   # qber2 = error/size # This value is greater than 1
     print("qber:", qber)
-    # print ("qber2:", qber2)
 
 def secureKeyRate(x):
     return ((-x)*log(x, 2) - (1-x)*log(1-x, 2))
@@ -79,6 +59,4 @@ if __name__ == "__main__":
 
     preparation_Bob()
     calculate()
-   # print ("Secure key rate:",secureKeyRate(qber)) # for finding keyrate, we use error_percentage
-   # print ("Secure key rate2 :",secureKeyRate(qber2))
 

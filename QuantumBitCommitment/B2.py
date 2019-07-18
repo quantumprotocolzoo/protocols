@@ -19,7 +19,6 @@ def Agent2_recv():
         received2[:] = list(r)
         print ("B2 TRANSFORMES LIST:")
         sleep(wait)
-        #sleep(3)
         commitment = B2.recvClassical()[0]
         print ("received commitment by Agent2:", commitment)
         

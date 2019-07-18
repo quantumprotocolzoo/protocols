@@ -43,8 +43,6 @@ def prep_Bob():
         sleep(wait)
         B0.sendClassical("B2",commitment)   
         print("commitment sent to B2")
-       # print ("sended for Agent1:", agent1_)      
-       # print ("sended for Agent2:", agent2_)    
         print ("HELLO2")       
 if __name__ == "__main__":
 

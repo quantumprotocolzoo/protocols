@@ -44,8 +44,6 @@ def create_message(qubit1, message = 0):
         a = qubit_send.measure()
         b = qubit1.measure()
         classical_encoded_message  = [int(a), int(b)]
-  #classical_encoded_message = "{}".format(a, b)
-  # print ("classical_encoded_message", classical_encoded_message)
     return classical_encoded_message
 
 
@@ -68,8 +66,6 @@ def message_reciever(message, qubit2):
          d = qubit2.measure()
          recieve_bit = d
          recieve_bit = int(d)
-  # classical_encoded_message = create_message(qubit1 = qubit2, message = bit)
-  # print ('recieve_bit',recieve_bit )
      return recieve_bit
 
 
@@ -88,7 +84,6 @@ def send_recieve(bit = 0):
             qubit1 = qubit(Alice)
             qubit1, qubit2 = generate_bell_pair()
             classical_encoded_message = create_message(qubit1 = qubit1, message = bit)
-   # print ('classical_encoded_message',classical_encoded_message )
     return message_reciever(classical_encoded_message, qubit2)
 
   
@@ -112,7 +107,6 @@ def send_all_message(message = 'hello'):
         received_bits = ''
         for bit in letter:
             received_bits = received_bits + str(send_recieve(int(bit)))
-  # print('received_bits22', received_bits)
         received_bytes_list.append(received_bits)
     binary_to_string = ''.join([chr(int(x, 2)) for x in received_bytes_list])
     print('Received Binary message: ', received_bytes_list)
