@@ -1,9 +1,7 @@
-from random import randint, random, sample
-from cqc.pythonLib import *
+from random import randint
+from cqc.pythonLib import  CQCConnection, qubit
 from time import sleep
 from math import pi, sqrt, acos
-
-# round((256/pi)*acos(sqrt(0.9)))
 
 m = 3
 n = 2
@@ -12,26 +10,28 @@ estep = 256 - step
 Bob_qubits = [ [] for i in range(n) ]
 Alice_recv_qubits = [ [] for i in range(n) ]
 wait = 0.5
+
 def prep_Alice():
 
     with CQCConnection("Alice") as Alice:
     
         a_bits = [randint(0,1) for j in range(m)]
         c_bits = [[randint(0,1) for j in range(m)] for i in range(n)]
+
         print ("Step 1 is OK! in Alice Part")
         print ("a_bits:", a_bits)
         print ("c_bits:", c_bits)
+
         print ("Step 2 is starting")
         for i in range(n):
             for j in range(m):
                 q_1 = qubit(Alice)
                 q_2 = qubit(Alice)
+
                 if (c_bits[i][j] == 0):
-                  #  q_2.H()
                     q_1.rot_X(step)
                     q_2.rot_X(estep)
                 else:
-                  #  q_1.H()
                     q_1.rot_X(estep)
                     q_2.rot_X(step)
 
@@ -43,7 +43,7 @@ def prep_Alice():
                
                 Bob_qubits[i].append( (bob_q1,bob_q2) )
         Alice.flush()        
-        # print ("Accepted Qubits by Alice from Bob:", Bob_qubits)
+
         print ("Step 3 is starting")
         for i in range(n):
             for j in range(m):
@@ -52,7 +52,6 @@ def prep_Alice():
                 print ("e_ij", e_ij)
                 sleep(wait)
                 Alice.sendClassical("Bob", e_ij)
-                # sleep(wait)
                 print("Alice is trying to accept f_ij:")
                 sleep(wait)
                 f_ij = Alice.recvClassical()[0]
@@ -68,11 +67,8 @@ def prep_Alice():
                 else:
                     Alice.sendQubit(Bob_qubits[i][j][0], "Bob")
                     Bob_qubits[i][j] = Bob_qubits[i][j][1]
-        # print ("Alice_recv_qubits: ", Alice_recv_qubits)
+
         print ("Step 4 is starting")            
-        # print("Receiving Qubits by Alice from Bob 2: ",Alice_recv_qubits )           
-                # Or you can send this instead of the if block Alice.sendQubit(Bob_qubits[i][j][~f_ij])
-        
         b_tilde = []
         for j in range(m):
             sleep(wait)
@@ -97,7 +93,6 @@ def prep_Alice():
             b_tilde.append(b_j)
             
             a_j_bar = 1 - a_bits[j]
-           # print ("Step 5 is starting")
             for i in range(n):
                 if a_j_bar == 0:
                     Alice_recv_qubits[i][j].rot_X(estep)
