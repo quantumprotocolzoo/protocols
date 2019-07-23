@@ -5,7 +5,6 @@ For running the code, you should use this command
 simulaqron reset && simulaqron set max-qubits 200 && simulaqron set backend projectq && simulaqron  start
  
  
- 
 In the CoinFlippingAlice code:
 
 In the first step:
