@@ -23,7 +23,7 @@ def prep_Bob():
                q.H()
             m = q.measure()
             receivebits.append(m)
-        print("received qubits: ", receivebits)    
+        print("received bits: ", receivebits)    
         print("Basis produced by Bob: ",basis_bob)
         print("Now Alice and Bob are waiting on time:")
         sleep(deltat)    
