@@ -1,6 +1,7 @@
-from SimulaQron.general.hostConfig import *
-from SimulaQron.cqc.backend.cqcHeader import *
-from SimulaQron.cqc.pythonLib.cqc import *
+#from SimulaQron.general.hostConfig import *
+#from SimulaQron.cqc.backend.cqcHeader import *
+#from SimulaQron.cqc.pythonLib.cqc import *
+from cqc.pythonLib import CQCConnection, qubit
 
 import random
 import numpy
@@ -63,34 +64,31 @@ def main():
     charlieUSE={0:numpy.loadtxt("C0.txt", dtype='int'),1:numpy.loadtxt("C1.txt", dtype='int')}
     
     # Initialise CQC connection
-    Charlie=CQCConnection("Charlie")
+    with CQCConnection("Charlie") as Charlie:
     
-    # Tell Bob to begin symmetrisation
-    ACKSend(Charlie, "Bob", list(b'ACK'))
-    
-    # Performs symmetrisation with Charlie
-    charlieKeep, charlieReceived=symmetrisation(Charlie, "Bob", N, L, charlieUSE)
+        # Tell Bob to begin symmetrisation
+        ACKSend(Charlie, "Bob", list(b'ACK'))
 
-    # Writes these to text files
-    cKeep0=open("charlieKeep0.txt", "a+")
-    cKeep1=open("charlieKeep1.txt", "a+")
-    cReceived0=open("charlieReceived0.txt", "a+")
-    cReceived1=open("charlieReceived1.txt", "a+")
-    
-    for l in range (0,L):
-        cKeep0.write("%d " % charlieKeep[0][l])
-        cKeep1.write("%d " % charlieKeep[1][l])
-        cReceived0.write("%d " % charlieReceived[0][l])
-        cReceived1.write("%d " % charlieReceived[1][l])
+        # Performs symmetrisation with Charlie
+        charlieKeep, charlieReceived=symmetrisation(Charlie, "Bob", N, L, charlieUSE)
 
-    cKeep0.close()
-    cKeep1.close()
-    cReceived0.close()
-    cReceived1.close()
+        # Writes these to text files
+        cKeep0=open("charlieKeep0.txt", "a+")
+        cKeep1=open("charlieKeep1.txt", "a+")
+        cReceived0=open("charlieReceived0.txt", "a+")
+        cReceived1=open("charlieReceived1.txt", "a+")
 
-    print("Charlie: SYMMETRISATION COMPLETE")
+        for l in range (0,L):
+            cKeep0.write("%d " % charlieKeep[0][l])
+            cKeep1.write("%d " % charlieKeep[1][l])
+            cReceived0.write("%d " % charlieReceived[0][l])
+            cReceived1.write("%d " % charlieReceived[1][l])
 
-    # Close CQC connection
-    Charlie.close()
+        cKeep0.close()
+        cKeep1.close()
+        cReceived0.close()
+        cReceived1.close()
+
+        print("Charlie: SYMMETRISATION COMPLETE")
 
 main()

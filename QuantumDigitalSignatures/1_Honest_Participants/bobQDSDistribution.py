@@ -1,10 +1,12 @@
-from SimulaQron.general.hostConfig import *
-from SimulaQron.cqc.backend.cqcHeader import *
-from SimulaQron.cqc.pythonLib.cqc import *
+#from SimulaQron.general.hostConfig import *
+#from SimulaQron.cqc.backend.cqcHeader import *
+#from SimulaQron.cqc.pythonLib.cqc import *
+from cqc.pythonLib import CQCConnection, qubit
 
 import random
 import numpy
 import pickle
+import os
 ###################################
 #
 # Functions
@@ -57,35 +59,32 @@ def main():
     config=numpy.loadtxt("config.txt")
     L=int(config[0])
     N=int(config[1])
-
+    
     # Delete any existing USE files
-    if os.path.isfile("C0.txt"):
-        os.remove("C0.txt")
-    if os.path.isfile("C1.txt"):
-        os.remove("C1.txt")
+    if os.path.isfile("B0.txt"):
+        os.remove("B0.txt")
+    if os.path.isfile("B1.txt"):
+        os.remove("B1.txt")
 
     # Initialise CQC connection
-    Charlie=CQCConnection("Charlie")
+    with CQCConnection("Bob") as Bob:
     
-    # Receive public (quantum) key from Alice
-    USE=receive_quantum_signature(Charlie, "Alice", N, L)
-    C0=open("C0.txt", "a+")
-    C1=open("C1.txt", "a+")
-    
-    # Write USE to file
-    for item in USE[0]:
-        C0.write("%s " % item)
-    for item in USE[1]:
-        C1.write("%s " % item)
-    
-    C0.close()
-    C1.close()
+        # Receive public (quantum) key from Alice
+        USE=receive_quantum_signature(Bob, "Alice", N, L)
+        B0=open("B0.txt", "a+")
+        B1=open("B1.txt", "a+")
 
-    # Inform Alice of completed symmetrisation
-    while bytes(ACKRecv(Charlie, "Alice")) != b'ACK':
-        pass
+        # Write USE to file
+        for item in USE[0]:
+            B0.write("%s " % item)
+        for item in USE[1]:
+            B1.write("%s " % item)
 
-    # Close CQC connection
-    Charlie.close()
+        B0.close()
+        B0.close()
+
+        # Inform Alice of completed symmetrisation
+        while bytes(ACKRecv(Bob, "Alice")) != b'ACK':
+            pass
 
 main()

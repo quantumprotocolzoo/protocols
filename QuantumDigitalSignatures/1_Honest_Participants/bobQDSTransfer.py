@@ -1,6 +1,7 @@
-from SimulaQron.general.hostConfig import *
-from SimulaQron.cqc.backend.cqcHeader import *
-from SimulaQron.cqc.pythonLib.cqc import *
+#from SimulaQron.general.hostConfig import *
+#from SimulaQron.cqc.backend.cqcHeader import *
+#from SimulaQron.cqc.pythonLib.cqc import *
+from cqc.pythonLib import CQCConnection, qubit
 
 import random
 import numpy
@@ -32,12 +33,9 @@ def main():
     sgndMessage=list(numpy.loadtxt("bobSgndMessage.txt", dtype='int'))
 
     # Initialise CQC connection
-    Bob=CQCConnection("Bob")
+    with CQCConnection("Bob") as Bob:
     
-    # Forward message to Charlie
-    ACKSend(Bob, "Charlie", sgndMessage)
-
-    # Close CQC connection
-    Bob.close()
+        # Forward message to Charlie
+        ACKSend(Bob, "Charlie", sgndMessage)
 
 main()

@@ -1,10 +1,12 @@
-from SimulaQron.general.hostConfig import *
-from SimulaQron.cqc.backend.cqcHeader import *
-from SimulaQron.cqc.pythonLib.cqc import *
+#from SimulaQron.general.hostConfig import *
+#from SimulaQron.cqc.backend.cqcHeader import *
+#from SimulaQron.cqc.pythonLib.cqc import *
+from cqc.pythonLib import CQCConnection, qubit
 
 import random
 import numpy
 import pickle
+import os
 ###################################
 #
 # Functions
@@ -52,29 +54,26 @@ def main():
     dictionary={'Keep':{0:numpy.loadtxt("charlieKeep0.txt", dtype='int'),1:numpy.loadtxt("charlieKeep1.txt", dtype='int')},'Received':{0:numpy.loadtxt("charlieReceived0.txt", dtype='int'),1:numpy.loadtxt("charlieReceived1.txt", dtype='int')}}
     
     # Initialise CQC connection
-    Charlie=CQCConnection("Charlie")
+    with CQCConnection("Charlie") as Charlie:
 
-    # Receive message from Bob
-    dictionary['sgndMessage']=ACKRecv(Charlie, "Bob")
-    
-    # Verify message using the two measurement strings Keep and Received
-    v, countKeep, countReceived=verify(Charlie, L, dictionary, sv)
-    if v:
-        print("CHARLIE ACCEPTS")
-    else:
-        print("CHARLIE ABORTS")
-    
-    print("Charlie counted {} direct mismatches and {} received mismatches".format(countKeep, countReceived))
-    print("Charlie's threshold is {}".format(sv*L/2))
+        # Receive message from Bob
+        dictionary['sgndMessage']=ACKRecv(Charlie, "Bob")
 
-    # Saves the signed message to txt file
-    if os.path.isfile("charlieSgndMessage.txt"):
-        os.remove("charlieSgndMessage.txt")
-    charlie=open("charlieSgndMessage.txt", "a+")
-    for l in range (0,L):
-        charlie.write("%d " % dictionary['sgndMessage'][l])
+        # Verify message using the two measurement strings Keep and Received
+        v, countKeep, countReceived=verify(Charlie, L, dictionary, sv)
+        if v:
+            print("CHARLIE ACCEPTS")
+        else:
+            print("CHARLIE ABORTS")
 
-    # Close CQC connection
-    Charlie.close()
+        print("Charlie counted {} direct mismatches and {} received mismatches".format(countKeep, countReceived))
+        print("Charlie's threshold is {}".format(sv*L/2))
+
+        # Saves the signed message to txt file
+        if os.path.isfile("charlieSgndMessage.txt"):
+            os.remove("charlieSgndMessage.txt")
+        charlie=open("charlieSgndMessage.txt", "a+")
+        for l in range (0,L):
+            charlie.write("%d " % dictionary['sgndMessage'][l])
 
 main()

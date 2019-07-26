@@ -1,6 +1,7 @@
-from SimulaQron.general.hostConfig import *
-from SimulaQron.cqc.backend.cqcHeader import *
-from SimulaQron.cqc.pythonLib.cqc import *
+#from SimulaQron.general.hostConfig import *
+#from SimulaQron.cqc.backend.cqcHeader import *
+#from SimulaQron.cqc.pythonLib.cqc import *
+from cqc.pythonLib import CQCConnection, qubit
 
 import random
 import numpy
@@ -67,18 +68,15 @@ def main():
         pickle.dump(privKey, myFile)
 
     # Initialise CQC connection
-    Alice=CQCConnection("Alice")
+    with CQCConnection("Alice") as Alice: 
 
-    # Distribute the public (quantum) key
-    distribute_quantum_signature(Alice, "Bob", N, L, privKey, noise)
-    distribute_quantum_signature(Alice, "Charlie", N, L, privKey, noise)
+        # Distribute the public (quantum) key
+        distribute_quantum_signature(Alice, "Bob", N, L, privKey, noise)
+        distribute_quantum_signature(Alice, "Charlie", N, L, privKey, noise)
 
-    # Confirm that distribution is complete
-    ACKSend(Alice, "Bob", list(b'ACK'))
-    ACKSend(Alice, "Charlie", list(b'ACK'))
-    print("Alice: DISTRIBUTION COMPLETE")
-
-    # Close CQC connection
-    Alice.close()
+        # Confirm that distribution is complete
+        ACKSend(Alice, "Bob", list(b'ACK'))
+        ACKSend(Alice, "Charlie", list(b'ACK'))
+        print("Alice: DISTRIBUTION COMPLETE")
 
 main()

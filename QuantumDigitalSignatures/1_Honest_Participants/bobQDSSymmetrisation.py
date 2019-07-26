@@ -1,6 +1,7 @@
-from SimulaQron.general.hostConfig import *
-from SimulaQron.cqc.backend.cqcHeader import *
-from SimulaQron.cqc.pythonLib.cqc import *
+#from SimulaQron.general.hostConfig import *
+#from SimulaQron.cqc.backend.cqcHeader import *
+#from SimulaQron.cqc.pythonLib.cqc import *
+from cqc.pythonLib import CQCConnection, qubit
 
 import random
 import numpy
@@ -63,35 +64,32 @@ def main():
     bobUSE={0:numpy.loadtxt("B0.txt", dtype='int'),1:numpy.loadtxt("B1.txt", dtype='int')}
 
     # Initialise CQC connection
-    Bob=CQCConnection("Bob")
-    
-    # Wait for Charlie to be ready for symmetrisation
-    while bytes(ACKRecv(Bob, "Charlie")) != b'ACK':
-        pass
-    
-    # Performs symmetrisation with Charlie
-    bobKeep, bobReceived=symmetrisation(Bob, "Charlie", N, L, bobUSE)
+    with CQCConnection("Bob") Bob: 
 
-    # Writes these to text files
-    bKeep0=open("bobKeep0.txt", "a+")
-    bKeep1=open("bobKeep1.txt", "a+")
-    bReceived0=open("bobReceived0.txt", "a+")
-    bReceived1=open("bobReceived1.txt", "a+")
-    
-    for l in range (0,L):
-        bKeep0.write("%d " % bobKeep[0][l])
-        bKeep1.write("%d " % bobKeep[1][l])
-        bReceived0.write("%d " % bobReceived[0][l])
-        bReceived1.write("%d " % bobReceived[1][l])
-    
-    bKeep0.close()
-    bKeep1.close()
-    bReceived0.close()
-    bReceived1.close()
+        # Wait for Charlie to be ready for symmetrisation
+        while bytes(ACKRecv(Bob, "Charlie")) != b'ACK':
+            pass
 
-    print("Bob: SYMMETRISATION COMPLETE")
+        # Performs symmetrisation with Charlie
+        bobKeep, bobReceived=symmetrisation(Bob, "Charlie", N, L, bobUSE)
 
-    # Close CQC connection
-    Bob.close()
+        # Writes these to text files
+        bKeep0=open("bobKeep0.txt", "a+")
+        bKeep1=open("bobKeep1.txt", "a+")
+        bReceived0=open("bobReceived0.txt", "a+")
+        bReceived1=open("bobReceived1.txt", "a+")
+
+        for l in range (0,L):
+            bKeep0.write("%d " % bobKeep[0][l])
+            bKeep1.write("%d " % bobKeep[1][l])
+            bReceived0.write("%d " % bobReceived[0][l])
+            bReceived1.write("%d " % bobReceived[1][l])
+
+        bKeep0.close()
+        bKeep1.close()
+        bReceived0.close()
+        bReceived1.close()
+
+        print("Bob: SYMMETRISATION COMPLETE")
 
 main()

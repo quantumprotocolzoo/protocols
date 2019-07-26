@@ -1,6 +1,7 @@
-from SimulaQron.general.hostConfig import *
-from SimulaQron.cqc.backend.cqcHeader import *
-from SimulaQron.cqc.pythonLib.cqc import *
+#from SimulaQron.general.hostConfig import *
+#from SimulaQron.cqc.backend.cqcHeader import *
+#from SimulaQron.cqc.pythonLib.cqc import *
+from cqc.pythonLib import CQCConnection, qubit
 
 import random
 import numpy
@@ -52,29 +53,26 @@ def main():
     dictionary={'Keep':{0:numpy.loadtxt("bobKeep0.txt", dtype='int'),1:numpy.loadtxt("bobKeep1.txt", dtype='int')},'Received':{0:numpy.loadtxt("bobReceived0.txt", dtype='int'),1:numpy.loadtxt("bobReceived1.txt", dtype='int')}}
 
     # Initialise CQC connection
-    Bob=CQCConnection("Bob")
+    with CQCConnection("Bob") as Bob:
     
-    # Receive message from Alice
-    dictionary['sgndMessage']=list(ACKRecv(Bob, "Alice"))
+        # Receive message from Alice
+        dictionary['sgndMessage']=list(ACKRecv(Bob, "Alice"))
 
-    # Verify message using the two measurement strings Keep and Received
-    v, countKeep, countReceived = verify(Bob, L, dictionary, sa)
-    if v:
-        print("BOB ACCEPTS")
-    else:
-        print("BOB ABORTS")
+        # Verify message using the two measurement strings Keep and Received
+        v, countKeep, countReceived = verify(Bob, L, dictionary, sa)
+        if v:
+            print("BOB ACCEPTS")
+        else:
+            print("BOB ABORTS")
 
-    print("Bob counted {} direct mismatches and {} received mismatches".format(countKeep, countReceived))
-    print("Bob's threshold is {}".format(sa*L/2))
+        print("Bob counted {} direct mismatches and {} received mismatches".format(countKeep, countReceived))
+        print("Bob's threshold is {}".format(sa*L/2))
 
-    # Saves the signed message to txt file
-    if os.path.isfile("bobSgndMessage.txt"):
-        os.remove("bobSgndMessage.txt")
-    bob=open("bobSgndMessage.txt", "a+")
-    for l in range (0,L+1):
-        bob.write("%d " % dictionary['sgndMessage'][l])
-
-    # Close CQC connection
-    Bob.close()
+        # Saves the signed message to txt file
+        if os.path.isfile("bobSgndMessage.txt"):
+            os.remove("bobSgndMessage.txt")
+        bob=open("bobSgndMessage.txt", "a+")
+        for l in range (0,L+1):
+            bob.write("%d " % dictionary['sgndMessage'][l])
 
 main()

@@ -1,6 +1,7 @@
-from SimulaQron.general.hostConfig import *
-from SimulaQron.cqc.backend.cqcHeader import *
-from SimulaQron.cqc.pythonLib.cqc import *
+#from SimulaQron.general.hostConfig import *
+#from SimulaQron.cqc.backend.cqcHeader import *
+#from SimulaQron.cqc.pythonLib.cqc import *
+from cqc.pythonLib import CQCConnection, qubit
 
 import random
 import numpy
@@ -33,14 +34,11 @@ def main():
         privKey = pickle.load(myFile)
 
     # Initialise CQC connection
-    Alice=CQCConnection("Alice")
+    with CQCConnection("Alice") as Alice:
 
-    # Signs message
-    message=random.randint(0,pow(2,N)-1)
-    print("Message is %d \n" % message)
-    ACKSend(Alice, "Bob", [message]+privKey[message])
-
-    # Close CQC connection
-    Alice.close()
+        # Signs message
+        message=random.randint(0,pow(2,N)-1)
+        print("Message is %d \n" % message)
+        ACKSend(Alice, "Bob", [message]+privKey[message])
 
 main()
