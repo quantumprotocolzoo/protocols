@@ -42,3 +42,11 @@ and for testing save the correct index
 
 2)And some calculaton such as error percentage
 
+NB: To allow processing the example (100 qubits sent) you should set
+simulaqron number of qubits to 100 to be on the safe side and not
+risking exhausting the number of available qubits at any of the
+nodes. This can be done with the following command:
+
+simulaqron set max-qubits 100
+
+before starting simulaqron.
