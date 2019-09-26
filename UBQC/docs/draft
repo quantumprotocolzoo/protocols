@@ -1,0 +1,113 @@
+
+
+By default, the client will load a random circuit from the `circuits` directory. This circuit describes a computation the client wishes to perform.
+
+Firstly the client converts the circuit into their measurement equivalents (see `measurements.py`), using the following decomposition of H, CX and finally of the J operator as elementary operators, see ref[1]:
+* <img src="./docs/im9.svg" align=middle width=250/>
+* <img src="./docs/im10.svg" align=middle width=450/>
+* <img src="./docs/im11.svg" align=middle width= 270/>
+
+J is a usefull operator that satisfies 
+<img src="./docs/im12.svg" align=middle width=350/>.
+In particular, J and CZ form a universal set for generating all unitaries, see ref[3]. 
+
+Then the client converts these measurements into an MBQC flow that can be sent to the server (see `flow.py`).
+
+
+## Client/Server Design - UBQC protocol
+
+By default, the client will load a random circuit from the `circuits` directory. This circuit describes a computation the client wishes to perform.
+
+Firstly the client converts the circuit into their measurement equivalents (see `measurements.py`), using the following decomposition of H, CX and finally of the J operator as elementary operators, see ref[1]:
+* <img src="./docs/im9.svg" align=middle width=250/>
+* <img src="./docs/im10.svg" align=middle width=220/>
+* <img src="./docs/im11.svg" align=middle width= 250/>
+
+J is a usefull operator that satisfies
+<img src="./docs/im12.svg" align=middle width=350/>.
+In particular, J and CZ form a universal set for generating all unitaries, see ref[3].
+
+Then the client converts these measurements into an MBQC flow (see flow.py) as decribed in the MBQC subroutines section. 
+
+The client then communicates with the server.
+Input state: 
+1. The clients sends the set S={(i,j)} of edges describing the graph to produce.
+2. The client prepares <img src="./docs/im13.svg" align=middle/> where 
+<img src="./docs/im14.svg" align=middle/>
+are the input states and where 
+<img src="./docs/im15.svg" align=middle/>
+ are angles choosen at random in <img src="./docs/im16.svg" align=middle/> and used to hide the computational angles. The client sends them one by one to the server.  
+3. The server entangle the qubits received as described by S.
+4. For i = 0..|N-O|-1: 
+* the client choses <img src="./docs/im17.svg" align=middle/> and asks the server to measure qubit i with <img src="./docs/im18.svg" align=middle/> angle where <img src="./docs/im19.svg" align=middle/>. (<img src="./docs/im20.svg" align=middle/> is use to hide the (next) measurement outcome). 
+* the server makes the measurement and sends back the measurement outcome <img src="./docs/im21.svg" align=middle/> of qubit i.
+5. The server sends back the non measured quantum states. 
+
+As so, the protocol does not implement a fully blind quantum computation as the graph is revealed to the server. 
+
+
+
+
+
+
+## Client/Server Design - UBQC protocol
+
+By default, the client will load a random circuit from the `circuits` directory. This circuit describes a computation the client wishes to perform.
+
+Firstly the client converts the circuit into their measurement equivalents (see `measurements.py`), using the following decomposition of H, CX and finally of the J operator as elementary operators, see ref[1]:
+* <img src="./docs/im9.svg" align=middle width=250/>
+* <img src="./docs/im10.svg" align=middle width=220/>
+* <img src="./docs/im11.svg" align=middle width= 250/>
+
+J is a usefull operator that satisfies
+<img src="./docs/im12.svg" align=middle width=350/>.
+In particular, J and CZ form a universal set for generating all unitaries, see ref[3].
+
+Then the client converts these measurements into an MBQC flow (see flow.py) as decribed in the MBQC subroutines section.
+
+The client then communicates with the server.
+
+1. The clients sends the set S={(i,j)} of edges describing the graph to produce.
+2. The client prepares <img src="./docs/im13.svg" align=middle width=280/> where 
+<img src="./docs/im14.svg" align=middle width=60/>
+are the input states and where
+<img src="./docs/im15.svg" align=middle width=60/>
+ are angles choosen at random in <img src="./docs/im16.svg" align=middle width=40/> and used to hide the computational angles. The client sends them one by one to the server.  
+3. The server entangle the qubits received as described by S.
+4. For i = 0..|N-O|-1:
+* the client choses <img src="./docs/im17.svg" align=middle width=70/> and asks the server to measure qubit i with <img src="./docs/im18.svg" align=middle width=40/> angle where <img src="./docs/im19.svg" align=middle width=380/>. ( <img src="./docs/im20.svg" align=middle width=13/> is used to hide the (next) measurement outcome).
+* the server makes the measurement and sends back the measurement outcome <img src="./docs/im21.svg" align=middle width=13/> of qubit i.
+5. The server sends back the non measured quantum states.
+
+As so, the protocol does not implement a fully blind quantum computation as the graph is revealed to the server.
+
+## Client/Server Design - UBQC protocol
+
+By default, the client will load a random circuit from the `circuits` directory. This circuit describes a computation the client wishes to perform.
+
+Firstly the client converts the circuit into their measurement equivalents (see `measurements.py`), using the following decomposition of H, CX and finally of the J operator as elementary operators, see ref[1]:
+* <img src="./docs/im9.svg" align=middle width=250/>
+* <img src="./docs/im10.svg" align=middle width=220/>
+* <img src="./docs/im11.svg" align=middle width= 250/>
+
+J is a usefull operator that satisfies
+<img src="./docs/im12.svg" align=middle width=350/>.
+In particular, J and CZ form a universal set for generating all unitaries, see ref[3].
+
+Then the client converts these measurements into an MBQC flow (see flow.py) as decribed in the MBQC subroutines section.
+
+The client then communicates with the server.
+
+1. The clients sends the set S={(i,j)} of edges describing the graph to produce.
+2. The client prepares <img src="./docs/im13.svg" align=middle width=240/> where 
+<img src="./docs/im14.svg" align=middle width=60/>
+are the input states and where
+<img src="./docs/im15.svg" align=middle width=60/>
+ are angles choosen at random in <img src="./docs/im16.svg" align=middle width=40/> and used to hide the computational angles. The client sends them one by one to the server.  
+3. The server entangle the qubits received as described by S.
+4. For i = 0..|N-O|-1:
+* the client choses <img src="./docs/im17.svg" align=middle width=70/> and asks the server to measure qubit i with <img src="./docs/im18.svg" align=middle width=40/> angle where <img src="./docs/im19.svg" align=middle width=380/>. ( <img src="./docs/im20.svg" align=middle width=13/> is used to hide the (next) measurement outcome).
+* the server makes the measurement and sends back the measurement outcome <img src="./docs/im21.svg" align=middle width=13/> of qubit i.
+5. The server sends back the non measured quantum states.
+
+As so, the protocol does not implement a fully blind quantum computation as the graph is revealed to the server.

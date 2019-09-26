@@ -1,0 +1,15 @@
+{
+    "gates": [
+        {
+            "name": "g1",
+            "type": "T",
+            "qbits": ["1"],
+            "angle": "32"
+        },
+        {
+            "name": "g2",
+            "type": "CX",
+            "qbits": ["1","2"]
+        }
+    ]
+}
