@@ -5,4 +5,4 @@ for i in `seq 21`
 	pdf2svg im$i-crop.pdf im$i.svg
 done
 
-#rm -f *.aux *.log *-crop.pdf
+#rm -f *.aux *.log *-crop.pdf *.pdf
