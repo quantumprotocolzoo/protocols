@@ -22,9 +22,6 @@ Finally the result of the computation on a input state  <img src="./docs/im8.svg
 With Simulaqron 3.0.4:
 Assume you have a working simulaqron environnement with qutip as backend.
 Install also projectq to draw the circuit and networkx to draw the graph.
-Make sure you have setup your python path up to UBQC folder:
-export PYTHONPATH="your_path_to_protocols_folder":$PYTHONPATH
-cd "your_path_to_protocols_folder"/UBQC
 ```bash
 simulaqron reset && simulaqron set backend qutip && simulaqron start --nodes Alice,Bob
 #Basic usage for running MBQC protocol:
@@ -80,7 +77,7 @@ are the input states and where <img src="./docs/im15.svg" align=middle width=60/
  are angles chosen at random in <img src="./docs/im16.svg" align=middle width=40/> and used to hide the computational angles. The client sends them one by one to the server.  
 3. The server entangles the qubits received as described by S.
 4. For : <img src="./docs/im16bis.svg" align=middle width=130/>
-* the client chooses <img src="./docs/im17.svg" align=middle width=70/> and asks the server to measure qubit i with <img src="./docs/im18.svg" align=middle width=40/> angle where <img src="./docs/im19.svg" align=middle width=380/>. ( <img src="./docs/im20.svg" align=middle width=13/> is used to hide the (next) measurement outcome).
+* the client chooses <img src="./docs/im17.svg" align=middle width=70/> and asks the server to measure qubit i with <img src="./docs/im18.svg" align=middle width=13/> angle where <img src="./docs/im19.svg" align=middle width=380/>. ( <img src="./docs/im20.svg" align=middle width=13/> is used to hide the (next) measurement outcome).
 * the server makes the measurement and sends back the measurement outcome <img src="./docs/im21.svg" align=middle width=13/> of qubit i.
 5. The server sends back the non measured quantum states.
 
