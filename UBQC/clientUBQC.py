@@ -47,7 +47,7 @@ parser=argparse.ArgumentParser(
     description='''Description.\nexample : python clientUBQC.py -c circuits/circuit7.json -d -i Z,I -o I,H''',
     formatter_class=RawTextHelpFormatter)
 parser.add_argument('-d','--draw', action="store_true", help='draw the circuit')
-parser.add_argument('-c','--circuit', type=str, help='choose a particular circuit in ubqc/circuits', default="")
+parser.add_argument('-c','--circuit', type=str, help='choose a particular circuit in circuits', default="")
 parser.add_argument('-i','--input', type=str, help='choose gates to apply on input states, default |+>. can be Pauli, rot_Pauli(angle),H,K,T.', default="")
 parser.add_argument('-o','--output', type=str, help='choose gates to apply before measurement, default is Z. can be Pauli, rot_Pauli(angle),H,K,T.', default="")
 args=parser.parse_args()

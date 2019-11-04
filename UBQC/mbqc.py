@@ -1,13 +1,13 @@
 import numpy as np, random, sys
 from pathlib import Path
 
-from ubqc.angle import measure_angle2
+from angle import measure_angle2
 
 #only for testing with maibn
 from cqc.pythonLib import CQCConnection, qubit
 
 #only for mbqc function :
-from ubqc.flow import circuit_file_to_flow, count_qubits_in_sequence
+from flow import circuit_file_to_flow, count_qubits_in_sequence
 
 
 def mbqc(node, circuit, input_qubits):
@@ -121,7 +121,7 @@ if __name__ == "__main__":
 			
 			#out = mbqc(Alice, "../ubqc/circuits/CNOT.json", [q1, q2])
 			#out = mbqc(Alice, "../ubqc/circuits/circuitRZ.json", [q1, q2])
-			out = mbqc(Alice, "../ubqc/circuits/circuit1.json", [q1,q2])
+			out = mbqc(Alice, "circuits/circuit1.json", [q1,q2])
 
 			# measure the output qubits
 			final_result = []

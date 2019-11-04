@@ -1,5 +1,5 @@
 import numpy as np
-from ubqc.measurement import load_and_convert_circuit
+from measurement import load_and_convert_circuit
 from copy import deepcopy
 
 class Gate:

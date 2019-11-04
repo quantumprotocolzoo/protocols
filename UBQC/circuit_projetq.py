@@ -85,5 +85,5 @@ def create_eng(path):
 		print(drawing_engine.get_latex(), file=f)
 
 if __name__ == "__main__":
-	path = "../ubqc/circuits/circuit9.json"
+	path = "circuits/circuit9.json"
 	create_eng(path)
