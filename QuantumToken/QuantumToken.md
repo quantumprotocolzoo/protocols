@@ -1,19 +1,20 @@
-In this exapmle, implemented QUantum Token protocol. You can find the detailed knowledge from here: 
-"Experimental investigation of practical unforgeable quantum money" https://www.nature.com/articles/s41534-018-0058-2
+In this directory you will find the files implementing the Quantum Token protocol:
+- https://wiki.veriqloud.fr/index.php?title=Quantum_Token for an operational description
+- Experimental investigation of practical unforgeable quantum money https://arxiv.org/pdf/1705.01428.pdf for more details.
 
-Quantum Token code has 3 players: Bank is Alice, Client is Eve and Merchant is Bob
+The protocol has 3 players: Bank (Alice), Client (Eve) and Merchant (Bob)
 
 In the QuantumTokenBank.py code:
 
-1) Bank(Alice) prepare the money. For this:
+1) Bank(Alice) prepares the money. For this:
 
   -Bank prepares randombits and randombits2 and saves in a different list
   
   -Bank prepares randombasis for encoding the bits and saves in a list
   
-  -Bank produces 2 qubits as qubit1 and qubit2
+  -Bank produces 2 fresh qubits as qubit1 and qubit2. 
   
-  -Bank applies gates according to the values of bits and basis
+  -Bank applies the gates according to the values of bits and basis
   
   -Bank saves these 2 qubits in a list which is called token 
   

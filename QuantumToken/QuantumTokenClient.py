@@ -16,7 +16,7 @@ truebits = []
 Bob_recv = [ [] for i in range(8) ]
 bank_bits_pairs = [[] for i in range(N)]
 accepted_qubits = []
-def usage_money():
+def use_money():
     with CQCConnection("Eve") as Eve:
         print("Client part is starting: ")
         for serial in range(M):
@@ -34,4 +34,4 @@ def usage_money():
         
         
 if __name__ == "__main__":
-    usage_money()
+    use_money()
