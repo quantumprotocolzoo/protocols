@@ -1,9 +1,11 @@
+# Outline
 In this directory you will find the files implementing the Quantum Token protocol:
 - https://wiki.veriqloud.fr/index.php?title=Quantum_Token for an operational description
 - Experimental investigation of practical unforgeable quantum money https://arxiv.org/pdf/1705.01428.pdf for more details.
 
 The protocol has 3 players: Bank (Alice), Client (Eve) and Merchant (Bob)
 
+# Preparing and distributing the money
 In the QuantumTokenBank.py code:
 
 1) Bank(Alice) prepares the money. For this:
@@ -24,6 +26,7 @@ In the QuantumTokenClient.py code:
 
 1) Client(Eve) receives qubits and then sends Merchant qubits.
 
+# Using the money
 After giving money to Merchant second stage is starting
 
 In the QuantumTokenMerchant.py code:
