@@ -5,6 +5,8 @@ In this directory you will find the files implementing the Quantum Token protoco
 
 The protocol has 3 players: Bank (Alice), Client (Eve) and Merchant (Bob)
 
+Before starting simulaqron run `simulaqron set max-qubits 100`
+
 # Preparing and distributing the money
 In the QuantumTokenBank.py code:
 
