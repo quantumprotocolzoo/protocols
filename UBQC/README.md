@@ -1,21 +1,8 @@
 # Universal Blind Quantum Computation (UBQC)
 
-The directory contains SimulaQron code for UBQC protocol for a partially quantum client (one who can prepare and send states) and single quantum server. It includes a classical subroutine to translate a quantum circuit into measuremnent language (meaurement.py) and hence convert it according to flow construction devised by Elham Kashefi and Vincent Danos (flow.py), see ref[1]. The output is then interpreted using UBQC protocol on the client side to assign (delegate) a full-fledged secret quantum computation to an all powerful quantum server, see ref[2].
+The directory contains SimulaQron code for UBQC protocol for a partially quantum client (one who can prepare and send states) and single quantum server. The protocol is decomposed as an MBQC protocol for translation from the circuit model (that can be used by itself), on top of which is added the blinding of the input states, output and computation (based on the hiding of the computational angles and measurement outcomes) to derive a UBQC protocol. It includes a classical subroutine to translate a quantum circuit into measuremnent language (meaurement.py) and hence convert it according to flow construction devised by Elham Kashefi and Vincent Danos (flow.py), see ref[1]. The output is then interpreted using UBQC protocol on the client side to assign (delegate) a full-fledged secret quantum computation to an all powerful quantum server, see ref[2].
 
-## MBQC
-This subroutine takes input as decribed in the JSON file in the same repository described below. MBQC subroutine is composed of two functions, measurement.py and flow.py. The final output of the subroutine can be interpreted as follows:  
 
-* E [i,j]: entangle qubits i and j using Controlled Phase (CZ gate). Lets denote by S the total set of such edges S={(i,j)}.
-* M i <img src="./docs/im1.svg" align=middle width=9.794565000000006pt height=22.831379999999992pt/> DX DZ: Give the measurement angle for qubit i in the
-<img src="./docs/im2.svg" align=middle/> basis, where
-<img src="./docs/im3.svg" align=middle width=350/>,
-<img src="./docs/im4.svg" align=middle width=250 />,
-<img src="./docs/im5.svg" align=middle width=13 /> being the measurement outcome of qubit j and DX and DZ two lists of indexes.
-* X j i: X correction to apply on qubit j depending on measurement outcome of qubit i. Lets denote by LX the total set of such indexes i.
-* Z j i: Z correction to apply on qubit j depending on measurement outcome of qubit i. Lets denote by LZ the total set of such indexes i.
-
-Finally the result of the computation on a input state  <img src="./docs/im8.svg" align=middle width=29/> is given by:
- <img src="./docs/im6.svg" align=middle width=600/>, where <img src="./docs/im7.svg" align=middle width=17/> is the measurement outcome on qubit k, O is the set of output qubits, I the set of input qubits, N the total set of qubit encoded into the graph state defined by S.  
 
 ## Running
 
@@ -53,6 +40,20 @@ cd examples/mbqc/
 python server.py &
 python client.py
 ```
+## MBQC
+This subroutine takes input as decribed in the JSON file in `circuits` directory. MBQC subroutine is composed of two functions, measurement.py and flow.py. The final output of the subroutine can be interpreted as follows:  
+
+* E [i,j]: entangle qubits i and j using Controlled Phase (CZ gate). Lets denote by S the total set of such edges S={(i,j)}.
+* M i <img src="./docs/im1.svg" align=middle width=9.794565000000006pt height=22.831379999999992pt/> DX DZ: Give the measurement angle for qubit i in the
+<img src="./docs/im2.svg" align=middle/> basis, where
+<img src="./docs/im3.svg" align=middle width=350/>,
+<img src="./docs/im4.svg" align=middle width=250 />,
+<img src="./docs/im5.svg" align=middle width=13 /> being the measurement outcome of qubit j and DX and DZ two lists of indexes.
+* X j i: X correction to apply on qubit j depending on measurement outcome of qubit i. Lets denote by LX the total set of such indexes i.
+* Z j i: Z correction to apply on qubit j depending on measurement outcome of qubit i. Lets denote by LZ the total set of such indexes i.
+
+Finally the result of the computation on a input state  <img src="./docs/im8.svg" align=middle width=29/> is given by:
+ <img src="./docs/im6.svg" align=middle width=600/>, where <img src="./docs/im7.svg" align=middle width=17/> is the measurement outcome on qubit k, O is the set of output qubits, I the set of input qubits, N the total set of qubit encoded into the graph state defined by S.  
 
 ## Client/Server Design - UBQC protocol
 
