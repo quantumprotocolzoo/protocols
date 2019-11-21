@@ -1,0 +1,25 @@
+{
+    "gates": [
+        {
+            "name": "g1",
+            "type": "CX",
+            "qbits": [1, 2]
+        },
+        {
+            "name": "g2",
+            "type": "CX",
+            "qbits": [2, 1]
+        },
+        {
+            "name": "g3",
+            "type": "CX",
+            "qbits": [1, 2]
+        },
+        {
+            "name": "g4",
+            "type": "H",
+            "qbits": [1]
+        }
+
+    ]
+}
