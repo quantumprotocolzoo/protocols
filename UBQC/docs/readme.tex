@@ -1,0 +1,47 @@
+\documentclass[10pts, a4paper]{article}
+\usepackage[utf8]{inputenc}
+%\usepackage{algorithm,algorithmicx,algpseudocode}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{braket}
+%\usepackage{cryptocode}
+\usepackage[english]{babel}
+\setlength{\parindent}{4 em}
+\setlength{\parskip}{1 em}
+\renewcommand{\baselinestretch}{1.0}
+\usepackage[margin=1.0in]{geometry}
+\usepackage{float}
+\floatstyle{boxed} 
+\usepackage{amsmath}
+\usepackage{caption}
+\usepackage[superscript, biblabel, nomove]{cite}
+\usepackage{mathtools}
+\title{ \begin{large}
+\textbf{Flow Construction}
+\end{large} 
+}
+%\author{}
+%document
+\date{}
+\begin{document}
+\maketitle
+Interpret Flow notations MBQC as follows. There are four kinds of outputs:
+\begin{itemize}
+\item E [i,j]: entangle qubits i and j using Controlled Phase. \\
+Lets denote by E the total set of edges $\{i,j\}$.
+\item M i $\phi$ DepX DepZ: Qubit i is measured in the $(|+_\alpha>, |-_\alpha>)$ basis, where\\
+$|+_\alpha> = \frac{1}{\sqrt{2}}(|0> + e^{i\alpha}|1>)$,\\
+$|-_\alpha> = \frac{1}{\sqrt{2}}(|0> - e^{i\alpha}|1>)$ \\
+and $\alpha=(-1)^{\sum_{j\in DepX} s_j \textnormal{ mod 2}}\phi+\sum_{j\in DepZ}s_j\pi$ where $s_j$ is the measurement outcome of qubit j and DepX and DepZ two lists of indexes.
+\item X j i: Operation of conditional X on qubit j depending on measurement outcome of qubit i\\
+Lets denote by K the total set of such indexes i. 
+\item Z j i: Operation of conditional Z on qubit j depending on measurement outcome of qubit i\\
+Lets denote by T the total set of such indexes i. 
+\end{itemize}
+Finally the resut of the computation is \\
+$|\psi_{out}>_O = \prod_{j\in O}X^{\sum_{k\in K}s_k \textnormal{ mod 2}}_j Z^{\sum_{k\in T}s_k \textnormal{ mod 2}}_j \prod_{j\in N-O} M_j(\alpha(\phi,DepX,DepZ)) \prod_{(i,j) \in E} CZ_{ij}|+>_{N-I}|\psi_i>_{i\in I}$, where $s_k$ is the measurement outcome on qubit $k$, O is the set of output qubits, I the set of input qubits, N the total set of qubit encoded into the graph state defined by $E$.  
+\end{document}
+
+
+
+
