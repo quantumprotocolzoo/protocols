@@ -61,7 +61,7 @@ def swap_test(conn, q1, q2):
 def main():
     # Initialize the connection
     with CQCConnection("Alice") as Alice:
-        BB84_key = 2
+        BB84_key = "10"
         db_id = 1
         M = 2
         res_same = []
