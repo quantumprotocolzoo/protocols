@@ -1,0 +1,51 @@
+#+TITLE: Uncloneable Encryption
+
+The code in this directory provides an implementation of the basic steps required in the uncloneable encryption protocol. It performs the classical part of the algorithm (that is it defines the values of the bits and bases that are chosen to encode the classical message using a BB84 encoding type). The receiver would use its secret bits to perform the operation in reverse and check that the message has not been tempered with. 
+
+The quantum encoding / sending / decoding being a plain request to an elementary quantum functionality (BB84 encoding / decoding) it has not been implemented and will we left to the user. 
+
+Below, we dig a little bit more into how to pick the classical error correcting codes to use in the protocol.
+
+* Code picking
+Take $C_1$ and $C_2$ s.t. $C_2^\perp \subset C_1$. 
+
+For $C_i$ we denote $H_i$ the parity check matrix, and $G_i$ the generating matrix. That is, the rows of $G_i$ generate $C_i$ by linear combinations, and we have the property that $H_i . G_i^T = 0_{N-K, K}$ (or $0_{N-K', K'}$ for i = 2).
+
+Now we chose $c_1$ an $N-K$ bit string at random. We encode our message $x$ in a $N$ bit string $y$ chosen at random provided that $y$ belongs to the coset $C_1^{c_1}$ of $C_1$ defined by $c_1$ and to the coset associated to $x$ of $C_1^{c_1}/C_2^\perp$. 
+
+How to do in practice?
+
+The conditions above on $y$ are the following: 
+
+$$H_1.y = c_1$$ and 
+$$K_2.y = x$$ 
+
+where $K_2$ is a block matrix such that $G_2 = \left( \frac{H_1}{K_2}\right)$. $G_2$ can always be writen in this way as $C_2^\perp \subset C_1$. [$C_2^\perp$ parity check is $G_2$ and its generating matrix is $H_2$. Since $C_2^\perp \subset C_1$, we have $H_1 . H_2^T = 0_{N-K, N-K'}$ which in turn implies that we can choose the first $N-K$ parity check equations of $C2^\perp$ to be defined by $H_1$. That is the first $N-K$ lines of $G_2$ are $H_1$. The $K'+K-N$ independent remaining ones define $K_2$.]
+
+* Closer to practice
+** Preprocessing of the codes
+
+
+Similarly, the generating matrix of $G_1$ can be chosen so that its first $N-K'$ rows are $H_2$, while the rest $K+K'-N$ lines which defines a submatrix $K_2$ satisfy $H_1 K_2^T = 0$ and $K_1 K_2^T = I$. 
+
+In short, $K_1$ is such that for a codeword of $C_1$ it will determine which coset of $C_2^\perp$ it is associated to. $K_2$ will allow to change coset while staying in $C_1$.
+
+## Encoding
+1. We pick $c_1$ a length-$(N-K)$ bit string at random. Then, because $C_1$ can be easily decoded, we find $y_0$ such that $H_1 y_0^T = c_1^T$. 
+
+1. We also compute $y_1$ such that $K_1 (y_0 + y_1) = 0$. This is easily done since $K_1 K_2^T = I$.
+
+1. Now we want to send $x$, a $(K+K'-N)$-bit string. We construct the vector $y_2 = x K_2$.  
+
+1. Then we pick $z$ a $(N-K')$-bit string at random and construct $y_3 = z H_2$. 
+
+Then we form $y = y_0 + y_1 + y_2 + y_3$. 
+
+Here $y_0$ moves to a coset of $C_1$ with syndrome $c_1$. 
+
+$y_1$ stays in the same coset of $C_1$ but moves to the coset of $C_2^\perp$ with all zero syndrome.
+
+$y_2$ picks the coset of $C_2\perp$ associated to the chosen syndrome $x$, which is equivalent to finding a representative of the chosen coset of $C_1/C_2^\perp$.
+
+$y_3$ stays in the same coset of $C_2/C_2^\perp$ but changes representative at random.
+"""
