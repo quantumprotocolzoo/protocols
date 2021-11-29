@@ -9,3 +9,14 @@ The code in this directory provides an implementation of the DIQKD protocol (exc
 
 # Changing protocol parameters
 Protocol and simulation parameters are defined in utils.py and can be modified as desired
+
+# Running
+- Requirement: Installation of the [NetSquid package](https://netsquid.org/)
+- Running: The code can be run by executing diqkd.py
+- Expected output: 
+    - Parameter estimation
+        - Observed CHSH wins
+        - Threshold CHSH wins
+        - Success / Failure messages
+    - Length of key distributed
+    - Number of protocol rounds
