@@ -24,17 +24,16 @@ The code in this directory provides an implementation of GHZ-based Quantum Anony
       python3 anon_trans.py 5 0 4 0.707 0.707j
       ```
       runs the code with the default parameters. The arguments in order are as follows:
-        - Number of nodes (more than 2)
-        - Id of sender (should range from 0 to num_nodes - 1)
-        - Id of receiver (should range from 0 to num_nodes - 1)
-        - $$\alpha$$ (Complex number)
-        - $$\beta$$ (Complex number),
+        - Number of nodes (more than 2) or ```num_nodes```
+        - Id of sender (should range from 0 to ```num_nodes-1```)
+        - Id of receiver (should range from 0 to ```num_nodes-1```)
+        - ![\alpha](https://latex.codecogs.com/svg.latex?%5Calpha) (Complex number)
+        - ![\beta](https://latex.codecogs.com/svg.latex?%5Cbeta) (Complex number),
         
-        where the message state to be transmitted is $$(\alpha\left|0\right\rangle + \beta\left|1\right\rangle)$$. The input message state need not be normalized, as normalization is performed by the code. For example, the above command would be equivalent to:
+        where the message state to be transmitted is  ![\alpha\left|0\right\rangle + \beta\left|1\right\rangle](https://latex.codecogs.com/svg.latex?%5Calpha%7C0%5Crangle+%5Cbeta%7C1%5Crangle). The input message state need not be normalized, as normalization is performed by the code. For example, the above command would be equivalent to:
         ```
         python3 anon_trans.py 5 0 4 1 1j
         ```
-        
 - Expected output: 
     - Simulation parameters
     - Confirmation of state reception
