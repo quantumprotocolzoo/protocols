@@ -8,23 +8,25 @@ from netsquid.qubits.state_sampler import StateSampler
 import numpy as np
 
 
+#Protocol definition
 class GHZ_QAT_Protocol(NodeProtocol):
     def __init__(self,n,id,node):
         super().__init__(node)
         self.id = id                #Node id
         self.n = n                  #Number of nodes in the network
-        self.sender = False
-        self.receiver = False
+        self.sender = False         #Node is not the sender by default
+        self.receiver = False       #Node is not the receiver by default
 
     def send(self,dest,message_qubit):
-        assert self.receiver == False and self.id != dest
-        self.sender = True
+        assert self.receiver == False and self.id != dest   #Sender and receiver should not be the same
+        self.sender = True                                  #Node is the sender
+        #Set destination and message
         self.dest = dest
         self.message_qubit = message_qubit
         
     def receive(self):
-        assert self.sender == False
-        self.receiver = True
+        assert self.sender == False     #Sender and receiver should not be the same
+        self.receiver = True            #Node is the receiver
 
     def run(self):
         #Anonymously distribute an EPR pair between sender and receiver
@@ -119,6 +121,7 @@ class GHZ_QAT_Protocol(NodeProtocol):
         #End of protocol
 
     def broadcast(self,message):
+        #Send message to each node in the network
         for i in range(self.n):
             if(i == self.id):
                 continue
@@ -139,12 +142,12 @@ def setup_network(num_nodes):
         ns.qubits.operate([q[0],q[i]],ns.CNOT)
     state = q[0].qstate.qrepr
     state_sampler = StateSampler([state],[1.0])
-    source_delay = 300
+    source_delay = 300  #Source timing in ns
     qsource = QSource(name = "GHZ Source", state_sampler = state_sampler, status = SourceStatus.INTERNAL,num_ports = num_nodes,timing_model = FixedDelayModel(source_delay))
 
     #Create classical channels
     channel = []
-    distance = 4 / 1000
+    distance = 4 / 1000 #Channel length in km (assuming all channels to be of equal length)
     delay_model = FibreDelayModel()
     for i in range(num_nodes):
         empty_list = []
@@ -159,7 +162,7 @@ def setup_network(num_nodes):
     #Add ports to nodes
     for i in range(num_nodes):
         for j in range(num_nodes):
-            node[i].add_ports(['cout'+str(j),'cin'+str(j)]) 
+            node[i].add_ports(['cout'+str(j),'cin'+str(j)]) #Add ports for classical input/output from/to each node
         node[i].add_ports(['qin'])
 
     #Connect nodes to classical channels
