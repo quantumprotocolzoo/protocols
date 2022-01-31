@@ -2,13 +2,13 @@
 import math
 import numpy as np
 gamma = 0.2                     #Fraction of test rounds
-w_exp = (2+math.sqrt(2))/ 4     #Expected winning probability of CHSH game in an honest implentations
-del_est = 1e-3                  #Width of statistical interval for the Bell test
-m = 1000                    #Number of blocks
+w_exp = (2+math.sqrt(2))/ 4     #Expected winning probability of CHSH game in an honest implementation
+del_est = 1e-3                  #Width of statistical interval for the Bell test (Smaller value leads to higher value of CHSH threshold and thus a tighter security bound)
+m = 1000                        #Number of blocks
 s_max = math.ceil(1/gamma)      #Maximum rounds in a block
-dist_AS = 4 / 1000              #Length of channel between Alice and Source
-dist_AB = 400 / 1000            #Length of channel between Alice and Bob
-dist_BS = 400 / 1000            #Length of channel between Bob and Source
+dist_AS = 4 / 1000              #Length of channel between Alice and Source in km
+dist_AB = 400 / 1000            #Length of channel between Alice and Bob in km
+dist_BS = 400 / 1000            #Length of channel between Bob and Source in km
 
 #Establish all connections between the given nodes and the source
 def set_up_network(alice,bob,source,channel1,channel2,channel3,qchannel1,qchannel2):

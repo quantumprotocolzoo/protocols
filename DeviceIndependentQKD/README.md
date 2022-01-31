@@ -20,3 +20,12 @@ Protocol and simulation parameters are defined in utils.py and can be modified a
 
 # Running
 `python diqkd.py`
+- Requirement: Installation of the [NetSquid package](https://netsquid.org/)
+- Running: The code can be run by executing diqkd.py
+- Expected output: 
+    - Parameter estimation
+        - Observed CHSH wins
+        - Threshold CHSH wins
+        - Success / Failure messages
+    - Length of key distributed
+    - Number of protocol rounds
